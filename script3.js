@@ -349,21 +349,42 @@
 
 /////////////////////////////////////////
 
-Array.prototype.customReduce = function (callback, initialValue) {
+// ***************************************** custom reduce method *****************************************
 
-    let accumulator = (initialValue !== undefined) ? initialValue : this[0];
-    let startIndex = (initialValue !== undefined) ? 0 : 1;
-    
-    for (let i = startIndex; i < this.length; i++) {
-        accumulator = callback(accumulator, this[i]);
-    }
+// Array.prototype.customReduce = function (callback, initialValue) {
 
-    return accumulator;
-}
+//     let accumulator = (initialValue !== undefined) ? initialValue : this[0];
+//     let startIndex = (initialValue !== undefined) ? 0 : 1;
 
-const numbers = [1, 2, 3, 4];
-console.log(numbers.customReduce((a, b) => a + b));
+//     for (let i = startIndex; i < this.length; i++) {
+//         accumulator = callback(accumulator, this[i]);
+//     }
+
+//     return accumulator;
+// }
+
+// const numbers = [1, 2, 3, 4];
+// console.log(numbers.customReduce((a, b) => a + b));
+
+// ------------------------------------------------------------------------------------------------------
+
+// a = 5 // a gets attached to the global space
+// console.log(a); // no error 
+// ---------------------------
+// 'use strict'
+// a = 5 // a will not be attached to the global space because of 'use strict'
+// console.log(a); // error
+
+// ------------------------------------------------------------------------------------------------------
 
 
+// make this IIFE to log 0,1,2 if you must use var
 
-
+// for (var ind = 0; ind < 3; ind++) {
+//     debugger
+//     (function (anyParam) {
+//         setTimeout(() => {
+//             console.log(anyParam);
+//         }, 100);
+//     })(ind)
+// }
