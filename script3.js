@@ -370,21 +370,99 @@
 
 // a = 5 // a gets attached to the global space
 // console.log(a); // no error 
-// ---------------------------
+// // ---------------------------
 // 'use strict'
 // a = 5 // a will not be attached to the global space because of 'use strict'
 // console.log(a); // error
 
 // ------------------------------------------------------------------------------------------------------
 
-
-// make this IIFE to log 0,1,2 if you must use var
-
-// for (var ind = 0; ind < 3; ind++) {
-//     debugger
-//     (function (anyParam) {
+// 1st approach - making it an IIFE
+// for (var i = 1; i <= 3; i++) {
+//     (function (x) {
 //         setTimeout(() => {
-//             console.log(anyParam);
-//         }, 100);
-//     })(ind)
+//             // console.log(x);
+//         }, 1000);
+//     })(i)
 // }
+// -------------------------------------------
+// // 2nd approach - wihtout making it an IIFE
+// for (var i = 1; i <= 3; i++) {
+//     function a(x) {
+//         setTimeout(() => {
+//             console.log(x);
+//         }, 1000);
+//     }
+//     a(i)
+// }
+
+// ------------------------------------------------------------------------------------------------------
+// // approach 1 - using only fetch 
+// fetch('https://api.openweathermap.org/data/2.5/weather?q=london&appid=10605351d9de0e34158b432ad1be208f&units=metric')
+//     .then((res) => res.json())
+//     .then((data) => console.log(data))
+//     .catch((err) => console.log('error idhar: ' + err))
+
+
+// // approach 2 - using promises 
+// function fetchWeather() {
+//     return new Promise((resolve, reject) => {
+//         fetch('https://api.openweathermap.org/data/2.5/weather?q=london&appid=10605351d9de0e34158b432ad1be208f&units=metric')
+//             .then((res) => res.json())
+//             .then((data) => resolve(data))
+//             .catch((err) => reject(err));
+//     });
+// }
+// fetchWeather()
+//     .then((data) => console.log(data))
+//     .catch((err) => console.log('error idhar: ' + err));
+
+
+// // approach 3 - using async/await 
+// async function fetchWeather() {
+//     try {
+//         const response = await fetch('https://api.openweathermap.org/data/2.5/weather?q=london&appid=10605351d9de0e34158b432ad1be208f&units=metric');
+//         const data = await response.json();
+//         return data;
+//     } catch (err) {
+//         throw new Error('error idhar: ' + err);
+//     }
+// }
+// fetchWeather()
+//     .then((data) => console.log(data))
+//     .catch((err) => console.log(err.message)); 
+
+// LETS RACE ALL THESE APPROACHES AND SEE WHICH IS THE FASTEST ****************************************************
+const fetchDirect = fetch('https://api.openweathermap.org/data/2.5/weather?q=london&appid=10605351d9de0e34158b432ad1be208f&units=metric')
+    .then((res) => res.json())
+    .then((data) => ({ method: 'fetchDirect', data }))
+    .catch((err) => ({ method: 'fetchDirect', error: 'error idhar: ' + err }));
+
+function fetchWeatherPromise() {
+    return new Promise((resolve, reject) => {
+        fetch('https://api.openweathermap.org/data/2.5/weather?q=london&appid=10605351d9de0e34158b432ad1be208f&units=metric')
+            .then((res) => res.json())
+            .then((data) => resolve({ method: 'fetchWeatherPromise', data }))
+            .catch((err) => reject({ method: 'fetchWeatherPromise', error: 'error idhar: ' + err }));
+    });
+}
+
+const fetchPromise = fetchWeatherPromise();
+
+async function fetchWeatherAsync() {
+    try {
+        const response = await fetch('https://api.openweathermap.org/data/2.5/weather?q=london&appid=10605351d9de0e34158b432ad1be208f&units=metric');
+        const data = await response.json();
+        return { method: 'fetchWeatherAsync', data };
+    } catch (err) {
+        throw { method: 'fetchWeatherAsync', error: 'error idhar: ' + err };
+    }
+}
+
+const fetchAsync = fetchWeatherAsync();
+
+
+Promise.race([fetchDirect, fetchPromise, fetchAsync])
+    .then((result) => console.log(result))
+    .catch((err) => console.log('An unexpected error occurred:', err));
+// 'fetchDirect' IS THE FASTEST OF THESE THREE  
