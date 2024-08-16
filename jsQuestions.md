@@ -96,3 +96,35 @@ The event loop manages tasks like network requests by handling them in the backg
     console.log( str.substr(2, 4) ); // 'ring', from the 2nd position get 4 characters
     ```
 ![alt text](image.png)
+
+#
+### Closures
+- An **inner function that retains its lexical scope** even after the outer function has finished its execution is called a `closure`
+- **Example when a variable declared in outer function is used in inner function or when a function returns another function it forms a closure**
+#
+## JS to the depths of it 
+### JavaScript Engine Components
+- **Parser:** Converts JavaScript code into an Abstract Syntax Tree (AST).
+- **Interpreter:** Executes code directly from the AST.
+- **Compiler:** Translates JavaScript code or parts of it into machine code or bytecode for optimization.
+- **Execution Context:** Manages the scope and context in which code executes.
+- **Call Stack:** Keeps track of function calls and execution contexts.
+- **Memory Management:** Handles allocation and deallocation of memory, including garbage collection.
+- **Heap:** Memory space used for dynamic memory allocation of objects and variables.
+- **Scope Chain:** Manages variable lookups and function resolutions through nested scopes.
+- **Closure:** Allows functions to retain access to their lexical scope even after the outer function has finished execution.
+### JavaScript Runtime Environment Components
+- **Event Loop:** Manages the execution of asynchronous tasks and ensures non-blocking operations.
+- **Task Queues:** Stores and manages asynchronous tasks such as macro-tasks and micro-tasks.
+- **Web APIs (Browser-Specific):** Provide additional functionalities like DOM manipulation, AJAX requests, and timers.
+    - Examples: document, window, fetch, XMLHttpRequest, setTimeout
+- **Global Object:** Provides access to global functions and objects.
+    - Examples: window (in browsers), global (in Node.js), self (in Web Workers)
+- **Web Workers (Browser-Specific):** Enable multi-threaded JavaScript execution, allowing background tasks to run concurrently.
+- **Module System:** Handles module loading and management.
+    - Examples: CommonJS (Node.js), ES Modules
+- **Host Environment Interfaces:** Include various APIs and services provided by the host environment (e.g., browser or Node.js) for interacting with external resources.
+- **Execution Contexts:** Manages different execution contexts (global, function, eval).
+- **Console:** Provides logging and debugging features for developers.
+
+

@@ -397,7 +397,7 @@
 // }
 
 // ------------------------------------------------------------------------------------------------------
-// // approach 1 - using only fetch 
+// approach 1 - using only fetch 
 // fetch('https://api.openweathermap.org/data/2.5/weather?q=london&appid=10605351d9de0e34158b432ad1be208f&units=metric')
 //     .then((res) => res.json())
 //     .then((data) => console.log(data))
@@ -419,7 +419,7 @@
 
 
 // // approach 3 - using async/await 
-// async function fetchWeather() {
+// async function fetchWeather2() {
 //     try {
 //         const response = await fetch('https://api.openweathermap.org/data/2.5/weather?q=london&appid=10605351d9de0e34158b432ad1be208f&units=metric');
 //         const data = await response.json();
@@ -428,41 +428,137 @@
 //         throw new Error('error idhar: ' + err);
 //     }
 // }
-// fetchWeather()
+// fetchWeather2()
 //     .then((data) => console.log(data))
 //     .catch((err) => console.log(err.message)); 
 
 // LETS RACE ALL THESE APPROACHES AND SEE WHICH IS THE FASTEST ****************************************************
-const fetchDirect = fetch('https://api.openweathermap.org/data/2.5/weather?q=london&appid=10605351d9de0e34158b432ad1be208f&units=metric')
-    .then((res) => res.json())
-    .then((data) => ({ method: 'fetchDirect', data }))
-    .catch((err) => ({ method: 'fetchDirect', error: 'error idhar: ' + err }));
 
-function fetchWeatherPromise() {
-    return new Promise((resolve, reject) => {
-        fetch('https://api.openweathermap.org/data/2.5/weather?q=london&appid=10605351d9de0e34158b432ad1be208f&units=metric')
-            .then((res) => res.json())
-            .then((data) => resolve({ method: 'fetchWeatherPromise', data }))
-            .catch((err) => reject({ method: 'fetchWeatherPromise', error: 'error idhar: ' + err }));
-    });
-}
 
-const fetchPromise = fetchWeatherPromise();
+// function fetchWeatherPromise() {
+//     return new Promise((resolve, reject) => {
+//         fetch('https://api.openweathermap.org/data/2.5/weather?q=london&appid=10605351d9de0e34158b432ad1be208f&units=metric')
+//             .then((res) => res.json())
+//             .then((data) => resolve({ method: 'fetchWeatherPromise', data }))
+//             .catch((err) => reject({ method: 'fetchWeatherPromise', error: 'error idhar: ' + err }));
+//     });
+// }
 
-async function fetchWeatherAsync() {
-    try {
-        const response = await fetch('https://api.openweathermap.org/data/2.5/weather?q=london&appid=10605351d9de0e34158b432ad1be208f&units=metric');
-        const data = await response.json();
-        return { method: 'fetchWeatherAsync', data };
-    } catch (err) {
-        throw { method: 'fetchWeatherAsync', error: 'error idhar: ' + err };
+// const fetchPromise = fetchWeatherPromise();
+
+// const fetchDirect = fetch('https://api.openweathermap.org/data/2.5/weather?q=london&appid=10605351d9de0e34158b432ad1be208f&units=metric')
+//     .then((res) => res.json())
+//     .then((data) => ({ method: 'fetchDirect', data }))
+//     .catch((err) => ({ method: 'fetchDirect', error: 'error idhar: ' + err }));
+
+
+// async function fetchWeatherAsync() {
+//     try {
+//         const response = await fetch('https://api.openweathermap.org/data/2.5/weather?q=london&appid=10605351d9de0e34158b432ad1be208f&units=metric');
+//         const data = await response.json();
+//         return { method: 'fetchWeatherAsync', data };
+//     } catch (err) {
+//         throw { method: 'fetchWeatherAsync', error: 'error idhar: ' + err };
+//     }
+// }
+
+// const fetchAsync = fetchWeatherAsync();
+
+
+// Promise.race([fetchPromise, fetchAsync, fetchDirect])
+//     .then((result) => console.log(result))
+//     .catch((err) => console.log('An unexpected error occurred:', err));
+// 'fetchDirect' IS THE FASTEST OF THESE THREE 
+
+// ------------------------------------------------------------------------------------------------------------------
+
+// function timer() {
+//     console.log('button 1');
+// }
+
+// console.log("Hi!");
+
+// setTimeout(function timeout() {
+//     console.log("button 2");
+// }, 2000);
+
+// console.log("Welcome");
+
+// setTimeout(timer, 1000);
+// // timer()
+
+// ------------------------------------------------------------------------------------------------------------------
+// closures__________________________________________________________
+
+// function outer(){
+//     // debugger
+//     console.log('outer');
+//     let a = 1
+
+//     return function (x){
+//         console.log('inner: ' + a + ' ' + x);
+//     }
+// }
+// outer()(23)
+
+// _____________________________
+
+// const myObj = {
+//     abc: function inner() {
+//         const x = 47
+//         debugger
+//         console.log(x);
+//         return 99
+//     }
+// }
+
+// function outer() {
+//     return myObj.abc
+// }
+// outer()()
+
+
+
+// console.time('abc')
+
+// for (let i = 1; i <= 1000000; i++) {
+//     // console.log(i);
+// }
+
+// console.timeEnd('abc')
+
+// ------------------------------------------------------------------------------------------------------------------
+
+const radius1 = [1,2,3]
+const radius2 = [4,5,6]
+
+function area1(abc) {
+    const area = []
+    for (let i = 0; i < abc.length; i++) {
+        area.push(Math.PI * abc[i] * abc[i]);
     }
+    return area
 }
+console.log(area1(radius1));
+console.log(area1(radius2));
 
-const fetchAsync = fetchWeatherAsync();
 
+function area2([...rad]) {
+    const area = []
+    for (let i = 0; i < rad.length; i++) {
+        area.push(Math.PI * rad[i] * rad[i]);
+    }
+    return area
+}
+console.log(area2(radius1));
+console.log(area2(radius2));
 
-Promise.race([fetchDirect, fetchPromise, fetchAsync])
-    .then((result) => console.log(result))
-    .catch((err) => console.log('An unexpected error occurred:', err));
-// 'fetchDirect' IS THE FASTEST OF THESE THREE  
+// function area3() {
+//     const area = [] 
+//     radius1.forEach((num) => {
+//         area.push(Math.PI * num * num)
+//     })
+//     return area
+// }
+// console.log(area3());
+
