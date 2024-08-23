@@ -92,3 +92,18 @@ console.log(result3);
 const divide = calculate('divide');
 const result4 = divide(8)(2);
 console.log(result4); 
+
+
+// infinite currying 
+// eg: adderFunc(1)(2)(3)(4)......(n)
+
+function adderFunc(a) {
+    return function (b) {
+        if (b) {
+            return adderFunc(a + b)
+        } 
+        return a
+    }
+}
+
+console.log(adderFunc(1)(2)(3)(4)(5)());
